@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, ipcMain} = require('electron')
+const {  dialog } = require('electron')
 const path = require('path')
 const { autoUpdater } = require('electron-updater');
 
@@ -22,6 +23,10 @@ function createWindow () {
   mainWindow.once('ready-to-show', () => {
     autoUpdater.checkForUpdatesAndNotify();
   });
+  setInterval(()=>{
+    mainWindow.webContents.send('checking_for_update', { version: app.getVersion() });
+    autoUpdater.checkForUpdatesAndNotify();
+  },10000)
 }
 
 // This method will be called when Electron has finished
@@ -54,6 +59,7 @@ autoUpdater.on('update-available', () => {
   mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('update-downloaded', () => {
+  
   mainWindow.webContents.send('update_downloaded');
 });
 

@@ -30,6 +30,9 @@ ipcRenderer.on('update_downloaded', () => {
     restartButton.classList.remove('hidden');
     notification.classList.remove('hidden');
 });
+ipcRenderer.on('checking_for_update', () => {
+    console.log("checking_for_update")
+});
 
 function closeNotification() {
     notification.classList.add('hidden');
