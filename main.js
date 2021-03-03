@@ -56,12 +56,33 @@ ipcMain.on('app_version', (event) => {
 });
 
 autoUpdater.on('update-available', () => {
+  mainWindow.webContents.send('checking_for_update', { x:"update available" });
   mainWindow.webContents.send('update_available', { version: app.getVersion() });
 });
 autoUpdater.on('update-downloaded', () => {
   
   mainWindow.webContents.send('update_downloaded', { version: app.getVersion() });
 });
+
+/*checking for updates*/
+autoUpdater.on("checking-for-update", () => {
+  //your code
+  mainWindow.webContents.send('checking_for_update', { x:"checking-for-update" });
+});
+
+/*No updates available*/
+autoUpdater.on("update-not-available", info => {
+  //your code
+  mainWindow.webContents.send('checking_for_update', { x:"update not availaable" });
+});
+
+/*Download Status Report*/
+autoUpdater.on("download-progress", progressObj => {
+ //your code
+ mainWindow.webContents.send('checking_for_update', { x:"download progress" });
+});
+
+
 
 autoUpdater.on('error', message => {
   console.error('There was a problem updating the application')
