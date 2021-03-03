@@ -63,6 +63,12 @@ autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded', { version: app.getVersion() });
 });
 
+autoUpdater.on('error', message => {
+  console.error('There was a problem updating the application')
+  console.error(message)
+  mainWindow.webContents.send('checking_for_update', { error: message, x:"error khaise" });
+})
+
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
